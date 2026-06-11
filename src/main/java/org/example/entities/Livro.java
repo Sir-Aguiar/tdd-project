@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import org.example.enums.StatusLivro;
+import org.example.exceptions.LivroIndisponivelException;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -24,8 +25,22 @@ public class Livro {
     }
 
     public void emprestar() {
+        if (copiasDisponiveis <= 0) {
+            throw new LivroIndisponivelException("Não há cópias disponíveis para empréstimo");
+        }
+
+        copiasDisponiveis--;
+
+        if (copiasDisponiveis == 0) {
+            status = StatusLivro.INDISPONIVEL;
+        }
     }
 
     public void devolver() {
+        copiasDisponiveis++;
+
+        if (status == StatusLivro.INDISPONIVEL) {
+            status = StatusLivro.DISPONIVEL;
+        }
     }
 }
