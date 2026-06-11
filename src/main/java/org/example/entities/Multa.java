@@ -1,0 +1,29 @@
+package org.example.entities;
+
+import java.math.BigDecimal;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+import org.example.enums.StatusMulta;
+
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class Multa {
+
+    public static final BigDecimal TAXA_POR_DIA = new BigDecimal("2.00");
+
+    final int diasAtraso;
+    BigDecimal saldoDevedor;
+    StatusMulta status;
+
+    public Multa(int diasAtraso) {
+        this.diasAtraso = diasAtraso;
+    }
+
+    public BigDecimal getValorTotal() {
+        return BigDecimal.ZERO;
+    }
+
+    public void pagar(BigDecimal valor) {
+    }
+}
