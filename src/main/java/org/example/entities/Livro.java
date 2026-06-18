@@ -30,17 +30,15 @@ public class Livro {
         }
 
         copiasDisponiveis--;
-
-        if (copiasDisponiveis == 0) {
-            status = StatusLivro.INDISPONIVEL;
-        }
+        atualizarStatus();
     }
 
     public void devolver() {
         copiasDisponiveis++;
+        atualizarStatus();
+    }
 
-        if (status == StatusLivro.INDISPONIVEL) {
-            status = StatusLivro.DISPONIVEL;
-        }
+    private void atualizarStatus() {
+        status = copiasDisponiveis > 0 ? StatusLivro.DISPONIVEL : StatusLivro.INDISPONIVEL;
     }
 }
