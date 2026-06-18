@@ -20,12 +20,16 @@ public class Multa {
 
     public Multa(int diasAtraso) {
         this.diasAtraso = diasAtraso;
-        this.saldoDevedor = TAXA_POR_DIA.multiply(BigDecimal.valueOf(diasAtraso));
+        this.saldoDevedor = calcularValorPorDias(diasAtraso);
         this.status = StatusMulta.PENDENTE;
     }
 
     public BigDecimal getValorTotal() {
-        return TAXA_POR_DIA.multiply(BigDecimal.valueOf(diasAtraso));
+        return calcularValorPorDias(diasAtraso);
+    }
+
+    private BigDecimal calcularValorPorDias(int dias) {
+        return TAXA_POR_DIA.multiply(BigDecimal.valueOf(dias));
     }
 
     public void pagar(BigDecimal valor) {
