@@ -35,11 +35,18 @@ public class Emprestimo {
         this.dataDevolucao = dataDevolucao;
         this.encerrado = true;
 
-        if (dataDevolucao.isAfter(dataPrevistaDevolucao)) {
-            int diasAtraso = (int) ChronoUnit.DAYS.between(dataPrevistaDevolucao, dataDevolucao);
-            return Optional.of(new Multa(diasAtraso));
+        if (isAtrasado(dataDevolucao)) {
+            return Optional.of(new Multa(calcularDiasAtraso(dataDevolucao)));
         }
 
         return Optional.empty();
+    }
+
+    private boolean isAtrasado(LocalDate dataDevolucao) {
+        return dataDevolucao.isAfter(dataPrevistaDevolucao);
+    }
+
+    private int calcularDiasAtraso(LocalDate dataDevolucao) {
+        return (int) ChronoUnit.DAYS.between(dataPrevistaDevolucao, dataDevolucao);
     }
 }
