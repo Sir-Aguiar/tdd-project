@@ -1,6 +1,7 @@
 package org.example.entities;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -15,7 +16,7 @@ public class Emprestimo {
     final Usuario usuario;
     final Livro livro;
     final LocalDate dataEmprestimo;
-    LocalDate dataPrevistaDevolucao;
+    final LocalDate dataPrevistaDevolucao;
     LocalDate dataDevolucao;
     boolean encerrado;
 
@@ -23,6 +24,7 @@ public class Emprestimo {
         this.usuario = usuario;
         this.livro = livro;
         this.dataEmprestimo = dataEmprestimo;
+        this.dataPrevistaDevolucao = dataEmprestimo.plusDays(PRAZO_DIAS);
     }
 
     public static Emprestimo criar(Usuario usuario, Livro livro, LocalDate dataEmprestimo) {
@@ -30,6 +32,14 @@ public class Emprestimo {
     }
 
     public Optional<Multa> devolver(LocalDate dataDevolucao) {
+        this.dataDevolucao = dataDevolucao;
+        this.encerrado = true;
+
+        if (dataDevolucao.isAfter(dataPrevistaDevolucao)) {
+            int diasAtraso = (int) ChronoUnit.DAYS.between(dataPrevistaDevolucao, dataDevolucao);
+            return Optional.of(new Multa(diasAtraso));
+        }
+
         return Optional.empty();
     }
 }

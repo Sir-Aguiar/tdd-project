@@ -1,10 +1,12 @@
 package org.example.entities;
 
 import java.math.BigDecimal;
+
+import org.example.enums.StatusMulta;
+
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import org.example.enums.StatusMulta;
 
 @Getter
 @FieldDefaults(level = AccessLevel.PRIVATE)
