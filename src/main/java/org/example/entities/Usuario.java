@@ -41,9 +41,17 @@ public class Usuario {
     }
 
     public void validarElegibilidadeParaEmprestimo() {
+        validarInadimplencia();
+        validarLimiteEmprestimos();
+    }
+
+    private void validarInadimplencia() {
         if (status == StatusUsuario.INADIMPLENTE || !multasPendentes.isEmpty()) {
             throw new UsuarioInadimplenteException("Usuário inadimplente não pode realizar novos empréstimos");
         }
+    }
+
+    private void validarLimiteEmprestimos() {
         if (emprestimosAtivos.size() >= LIMITE_EMPRESTIMOS) {
             throw new LimiteEmprestimosExcedidoException(
                     "Usuário não pode ter mais de " + LIMITE_EMPRESTIMOS + " livros emprestados simultaneamente");
